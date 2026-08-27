@@ -77,6 +77,14 @@
   /* InstructionCard */
   --instruction-bg: #F0F4FF;
 
+  /* Intro accent card. Sampled from the deployed activity screenshot, not from
+     app/shared/theme/colors.js — the local monorepo clone predates this
+     component, so neither value exists as a token there yet. Swap both for the
+     real unit-accent tokens at migration. */
+  --accent-band: #437FF8;
+  --accent-fill: #E4F0FE;
+  --radius-lg: 12px;   /* MUI borderRadius: 2 against shape.borderRadius 6 */
+
   /* roles */
   --ground: var(--white);          /* appColors.background = grayscale.white */
   --surface: var(--white);
@@ -339,10 +347,29 @@ li:last-child { margin-bottom: 0; }
 .instruction h2 { font-size: clamp(1.25rem, 3vw, 1.5rem); font-weight: 700; }
 .instruction p { font-size: var(--fs-body); }
 
+/* The intro accent card is ONE card, not two stacked boxes: the fill is
+   --accent-fill and the blue title block sits on top of it carrying the same
+   radius on ALL FOUR corners, so its curved bottom edge mirrors the card's own
+   and the fill shows through at the two notches. That curve is the whole
+   trick — built as two glued bands it never reads right. */
+.accentcard {
+  background: var(--accent-fill);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-2);
+  padding: 0 2px;
+}
+.accentcard__title {
+  background: var(--accent-band);
+  border-radius: var(--radius-lg);
+  padding: 1rem 1.35rem 1.1rem;
+}
+.accentcard__title h1 { color: var(--white); }
+.accentcard__body { margin: 0; padding: 1.3rem 1.35rem 1.5rem; }
+
 .introcard {
   background: var(--surface);
   border: 1px solid var(--int-light-gray);
-  border-radius: var(--radius);
+  border-radius: var(--radius-lg);
   padding: 1.25rem 1.4rem;
   display: flex;
   flex-direction: column;
@@ -802,12 +829,15 @@ details.about--rail table.data td { padding: 0.35rem 0.5rem; }
 
     <!-- ================= INTRO ================= -->
     <section class="page is-active" id="page-intro" aria-labelledby="pih">
-      <h1 id="pih">Let&rsquo;s see what happens to a study without an analysis plan.</h1>
-
-      <p>Planning how you will analyze your data helps reduce the type of flexibility in a study that
-      inserts bias or chance by ensuring choices are intentional and specified in advance. Even small,
-      exploratory, or pre-clinical studies benefit from documenting analytic decisions before the study
-      is run.</p>
+      <div class="accentcard">
+        <div class="accentcard__title">
+          <h1 id="pih">Let&rsquo;s see what happens to a study without an analysis plan.</h1>
+        </div>
+        <p class="accentcard__body">Planning how you will analyze your data helps reduce the type of
+        flexibility in a study that inserts bias or chance by ensuring choices are intentional and
+        specified in advance. Even small, exploratory, or pre-clinical studies benefit from documenting
+        analytic decisions before the study is run.</p>
+      </div>
 
       <div class="introcard">
         <h2>Your Goal</h2>
